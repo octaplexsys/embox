@@ -190,7 +190,8 @@ void arch_idle(void) {
 	if (arch_deepsleep_start(&ipl)) {
 		__asm__ __volatile__ ("wfi");
 	} else {
-		deepsleep_enter();
+		__asm__ __volatile__ ("wfi");
+		//deepsleep_enter();
 	}
 	arch_deepsleep_finish(ipl);
 }

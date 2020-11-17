@@ -1,0 +1,10 @@
+package embox.cmd
+
+@AutoCmd
+@Cmd(name = "pthread_test",
+	help = "",
+	man = '''
+	''')
+module pthread_test {
+	source "pthread_test.c"
+}
