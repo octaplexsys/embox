@@ -65,13 +65,13 @@ $(BUILD) :
 
 $(INSTALL) :
 	cd $(BUILD_ROOT) && $(MAKE) install
-	# Get rid of AUTOCONF_TARGET_TRIPLET in file names to use them in Mybuild
+	# Remove AUTOCONF_TARGET_TRIPLET from file names to use them in Mybuild
 	for f in $(PJSIP_INSTALL_DIR)/lib/*-$(AUTOCONF_TARGET_TRIPLET).a; do \
 		fn=$$(basename $$f); \
 		cp $$f $(PJSIP_INSTALL_DIR)/lib/$${fn%-$(AUTOCONF_TARGET_TRIPLET).a}.a; \
 	done
 	# Copy binaries and
-	# get rid of AUTOCONF_TARGET_TRIPLET in file names to use them in Mybuild
+	# remove AUTOCONF_TARGET_TRIPLET from file names to use them in Mybuild
 	for f in $(BUILD_ROOT)/pjsip-apps/bin/samples/$(AUTOCONF_TARGET_TRIPLET)/*; do \
 		cp $$f $(PJSIP_INSTALL_DIR)/$$(basename $$f).o; \
 	done
