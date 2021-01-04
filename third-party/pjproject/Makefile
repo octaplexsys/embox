@@ -7,12 +7,12 @@ PKG_MD5     := 13e5c418008ae46c4ce0c1e27cdfe9b5
 
 include $(EXTBLD_LIB)
 
-PKG_PATCHES := pjproject-2.10.patch \
-	sha256_error_fix-2.10.patch \
-	addr_resolv_sock-2.10.patch
+PKG_PATCHES := pjproject-$(PKG_VER).patch \
+	sha256_error_fix-$(PKG_VER).patch \
+	addr_resolv_sock-$(PKG_VER).patch
 
 ifeq ($(PJSIP_ENABLE_CXX),false)
-PKG_PATCHES	+= pjsua2_disable-2.10.patch
+PKG_PATCHES	+= pjsua2_disable-$(PKG_VER).patch
 endif
 
 #PKG_PATCHES := pjproject.patch \
@@ -38,9 +38,6 @@ DISABLE_FEATURES := \
 	libwebrtc \
 	#g711-codec
 
-PJPROJECT_ROOT := $(ROOT_DIR)/third-party/pjproject
-PJSIP_CPPFLAGS := -I$(PJPROJECT_ROOT)/include $(EMBOX_DEPS_CPPFLAGS) -I$(SRC_DIR)/compat/cxx/include 
-PJSIP_CPPFLAGS += -I$(SRC_DIR)/compat/libc/include -I$(SRC_DIR)/compat/posix/include
 BUILD_ROOT  := $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VER)
 PJSIP_INSTALL_DIR := $(EXTERNAL_BUILD_DIR)/third_party/pjproject/core/install
 
@@ -50,14 +47,11 @@ $(CONFIGURE) :
 		./configure \
 			CC=$(EMBOX_GCC) \
 			CXX=$(EMBOX_GXX) \
-			CPPFLAGS="$(PJSIP_CPPFLAGS)" \
 			--host=$(AUTOCONF_TARGET_TRIPLET) \
 			--target=$(AUTOCONF_TARGET_TRIPLET) \
 			--prefix=$(PJSIP_INSTALL_DIR) \
 			$(DISABLE_FEATURES:%=--disable-%) \
 			--with-external-pa; \
-		echo export CFLAGS+="$(PJSIP_CPPFLAGS) $(PJSIP_BUILD_FIXUP_CFLAGS)" > user.mak; \
-		echo export CXXFLAGS+="$(EMBOX_CXXFLAGS) $(PJSIP_CPPFLAGS)" >> user.mak; \
 	)
 	cp ./config_site.h $(BUILD_ROOT)/pjlib/include/pj/config_site.h
 	touch $@
