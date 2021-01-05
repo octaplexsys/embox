@@ -61,6 +61,18 @@ PROFILING_CFLAGS ?= -finstrument-functions \
 			get_profiling_mode \
 			set_profiling_mode)
 
+#
+# We use '+', because we want to call external build as recursive sub-make.
+# From https://www.gnu.org/software/make/manual/html_node/MAKE-Variable.html:
+#
+# "This special feature is only enabled if the MAKE variable appears directly
+# in the recipe: it does not apply if the MAKE variable is referenced through
+# expansion of another variable. In the latter case you must use the '+' token
+# to get these special effects."
+#
+# Since $(MAKE) here is referenced through $(EXTERNAL_MAKE) it's fine to add
+# additional '+'.
+#
 EXTERNAL_MAKE = \
 	+$(MAKE) -C $(dir $(my_file)) $(EXTERNAL_MAKE_FLAGS)
 
