@@ -62,7 +62,7 @@ PROFILING_CFLAGS ?= -finstrument-functions \
 			set_profiling_mode)
 
 EXTERNAL_MAKE = \
-	$(MAKE) -C $(dir $(my_file)) $(EXTERNAL_MAKE_FLAGS)
+	+$(MAKE) -C $(dir $(my_file)) $(EXTERNAL_MAKE_FLAGS)
 
 EXTERNAL_MAKE_PRO = \
 	$(MKDIR) $(mod_build_dir) && \
@@ -107,6 +107,7 @@ EXTERNAL_MAKE_FLAGS = \
 	EMBOX_ARCH='$(ARCH)' \
 	EMBOX_CROSS_COMPILE='$(CROSS_COMPILE)' \
 	EMBOX_MAKEFLAGS='$(MAKEFLAGS)' \
+	EMBOX_IMPORTED_MAKEFLAGS='$(filter -j% --jobserver-auth=% --jobserver-fds=%, $(MAKEFLAGS))' \
 	EMBOX_CFLAGS='$(CFLAGS)' \
 	EMBOX_CXXFLAGS='$(CXXFLAGS)' \
 	EMBOX_DEPS_CPPFLAGS='$(BUILD_DEPS_CPPFLAGS)' \
